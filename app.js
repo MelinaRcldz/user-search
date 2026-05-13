@@ -1,7 +1,13 @@
 const URL = "https://jsonplaceholder.typicode.com/users";
 const $userList = document.querySelector("#userList");
 const $searchInput = document.querySelector("#searchInput");
+const $status = document.querySelector("#status");
 
+function wait(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
 // Devuelve un List Item con el email y el nombre
 function generateUserHTML({ email, name }) {
     const $listItem = document.createElement("li");
@@ -35,12 +41,22 @@ function filterUsers(query, users) {
 
 // Renderiza todos los usuarios
 async function renderUsers(event) {
+    $status.innerText = "Buscando usuarios...";
+    $userList.replaceChildren();
+
+    await wait(700);
+
     const users = await getUsers();
     const query = event.target.value;
 
     const filteredUsers = filterUsers(query, users);
 
-    $userList.innerHTML = "";
+    if (filteredUsers.length === 0) {
+        $status.innerText = "No se encontraron usuarios";
+        return;
+    }
+
+    $status.innerText = `Se encontraron ${filteredUsers.length} usuarios`;
 
     filteredUsers.forEach((user) => {
         const { name, email } = user;
