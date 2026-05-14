@@ -43,7 +43,7 @@ function generatePostHTML({ title }) {
 function generateUserWithPostsHTML({ name, email, posts }) {
     const $listItem = document.createElement("li");
     const $userHeading = document.createElement("h2");
-    const $userEmail = document.createElement("span");
+    const $userEmail = document.createElement("strong");
     const $postsList = document.createElement("ul");
 
     $userHeading.innerText = name;
@@ -96,7 +96,7 @@ async function getPostsByUserId(userId) {
         }
 
         const data = await response.json();
-        return data;
+        return data.slice(0, 5);
     } catch (error) {
         console.error(error);
     }
