@@ -9,6 +9,8 @@ const $getPostsButton = document.querySelector("#getPostsButton");
 const $postsList = document.querySelector("#postsList");
 const $getUsersAndPostsButton = document.querySelector("#getUsersAndPostsButton");
 const $usersAndPostsList = document.querySelector("#usersAndPostsList");
+const $createPostForm = document.querySelector("#createPostForm");
+const $createdPost = document.querySelector("#createdPost");
 
 function wait(ms) {
     return new Promise((resolve) => {
@@ -62,6 +64,23 @@ function generateUserWithPostsHTML({ name, email, posts }) {
     return $listItem;
 }
 
+function generateCreatedPostHTML({ title, body, author }) {
+    const $article = document.createElement("article");
+    const $title = document.createElement("h3");
+    const $author = document.createElement("small");
+    const $body = document.createElement("p");
+
+    $title.innerText = title;
+    $author.innerText = `Publicado por: ${author}`;
+    $body.innerText = body;
+
+    $article.appendChild($title);
+    $article.appendChild($author);
+    $article.appendChild($body);
+
+    return $article;
+}
+
 // Devuelve Usuarios [{}, {}]
 async function getUsers() {
     try {
@@ -97,6 +116,27 @@ async function getPostsByUserId(userId) {
 
         const data = await response.json();
         return data.slice(0, 5);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function createPost(title, body) {
+    try {
+        const response = await fetch(POSTS_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ title, body }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al crear el post");
+        }
+
+        const data = await response.json();
+        return data;
     } catch (error) {
         console.error(error);
     }
@@ -162,6 +202,30 @@ async function renderUsersAndPosts() {
     }
 }
 
+async function handleCreatePost(event) {
+    event.preventDefault();
+
+    const formData = new FormData($createPostForm);
+    const title = formData.get("title");
+    const body = formData.get("body");
+    const author = formData.get("author");
+
+    const createdPost = await createPost(title, body);
+
+    if (!createdPost) {
+        return;
+    } 
+    $createdPost.replaceChildren();
+    const $createdPostElement = generateCreatedPostHTML({
+        title: createdPost.title,
+        body: createdPost.body,
+        author,
+    });
+    $createdPost.appendChild($createdPostElement);
+    $createPostForm.reset();
+}
+
 $searchInput.addEventListener("input", renderUsers);
 $getPostsButton.addEventListener("click", renderPosts);
 $getUsersAndPostsButton.addEventListener("click", renderUsersAndPosts);
+$createPostForm.addEventListener("submit", handleCreatePost);

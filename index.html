@@ -39,6 +39,42 @@
         <ul id="usersAndPostsList"></ul>
       </section>
 
+      <section>
+        <h2>Crear Post</h2>
+
+        <form id="createPostForm">
+            <label for="postAuthor">Autor</label>
+            <input
+                id="postAuthor"
+                name="author"
+                type="text"
+                placeholder="Nombre del autor"
+                required
+            />
+            <label for="postTitle">Título del post</label>
+            <input
+                id="postTitle"
+                name="title"
+                type="text"
+                placeholder="Titulo del post"
+                required
+            />
+            <label for="postBody">Contenido del post</label>
+            <textarea
+                id="postBody"
+                name="body"
+                placeholder="Contenido del post"
+                required
+            ></textarea>
+
+            <button type="submit">
+                Crear Post
+            </button>
+        </form>
+
+        <article id="createdPost"></article>
+      </section>
+
     </main>
     <script src="app.js"></script>
   </body>
