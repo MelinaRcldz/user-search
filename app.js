@@ -7,6 +7,8 @@ const $searchInput = document.querySelector("#searchInput");
 const $status = document.querySelector("#status");
 const $getPostsButton = document.querySelector("#getPostsButton");
 const $postsList = document.querySelector("#postsList");
+const $getUsersAndPostsButton = document.querySelector("#getUsersAndPostsButton");
+const $usersAndPostsList = document.querySelector("#usersAndPostsList");
 
 function wait(ms) {
     return new Promise((resolve) => {
@@ -38,6 +40,28 @@ function generatePostHTML({ title }) {
     return $listItem;
 }
 
+function generateUserWithPostsHTML({ name, email, posts }) {
+    const $listItem = document.createElement("li");
+    const $userHeading = document.createElement("h2");
+    const $userEmail = document.createElement("span");
+    const $postsList = document.createElement("ul");
+
+    $userHeading.innerText = name;
+    $userEmail.innerText = email;
+
+    posts.forEach((post) => {
+        const $postItem = document.createElement("li");
+        $postItem.innerText = post.title;
+        $postsList.appendChild($postItem);
+    });
+
+    $listItem.appendChild($userHeading);
+    $listItem.appendChild($userEmail);
+    $listItem.appendChild($postsList);
+
+    return $listItem;
+}
+
 // Devuelve Usuarios [{}, {}]
 async function getUsers() {
     try {
@@ -59,6 +83,20 @@ async function getPosts() {
 
         const data = await response.json();
         return data.slice(0, 5);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getPostsByUserId(userId) {
+    try {
+        const response = await fetch(`${POSTS_URL}?userId=${userId}`);
+        if (!response.ok) {
+            throw new Error("Error al obtener los posts del usuario");
+        }
+
+        const data = await response.json();
+        return data;
     } catch (error) {
         console.error(error);
     }
@@ -107,5 +145,23 @@ async function renderPosts() {
     });
 }
 
+async function renderUsersAndPosts() {
+    const users = await getUsers();
+    $usersAndPostsList.replaceChildren();
+
+    for (const user of users) {
+        const posts = await getPostsByUserId(user.id);
+
+        const $userWithPostsElement = generateUserWithPostsHTML({
+            name: user.name,
+            email: user.email,
+            posts,
+        });
+
+        $usersAndPostsList.appendChild($userWithPostsElement);
+    }
+}
+
 $searchInput.addEventListener("input", renderUsers);
 $getPostsButton.addEventListener("click", renderPosts);
+$getUsersAndPostsButton.addEventListener("click", renderUsersAndPosts);
