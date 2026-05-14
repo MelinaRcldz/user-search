@@ -8,14 +8,27 @@
   <body>
     <main>
       <h1>Buscador de usuarios</h1>
+
       <label for="searchInput">Buscar usuario por nombre</label>
       <input
         id="searchInput"
         type="text"
         placeholder="Ej: Leanne"
       />
+
       <p id="status"></p>
       <ul id="userList"></ul>
+
+      <section>
+        <h2>Primeros 5 posts</h2>
+
+        <button id="getPostsButton">
+            Cargar posts
+        </button>
+
+        <ul id="postsList"></ul>
+      </section>
+      
     </main>
     <script src="app.js"></script>
   </body>
