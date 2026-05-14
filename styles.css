@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 40px 24px;
+
+  font-family: "Inter", sans-serif;
+  color: #1f2937;
+
+  background:
+    radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.08), transparent 30%),
+    #f6f1e8;
+}
+
+.app {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+}
+
+h1 {
+  margin: 0 0 28px;
+
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+
+  color: #111827;
+}
+
+section {
+  margin-bottom: 24px;
+  padding: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 24px;
+  background: rgba(255, 250, 240, 0.82);
+  box-shadow:
+    0 10px 35px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+section h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.7rem;
+  color: #111827;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border: 1px solid #d6d3d1;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #111827;
+  font: inherit;
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #0f766e;
+  box-shadow:
+    0 0 0 4px rgba(15, 118, 110, 0.12);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 14px;
+
+  background: #0f766e;
+  color: #f8fafc;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+button:hover {
+  background: #115e59;
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 20px rgba(15, 118, 110, 0.18);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(15, 118, 110, 0.25);
+  outline-offset: 2px;
+}
+
+#status {
+  min-height: 24px;
+  color: #0f766e;
+  font-weight: 600;
+}
+
+ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 14px;
+}
+
+li h2,
+li h3 {
+  margin: 0 0 6px;
+
+  color: #111827;
+}
+
+small {
+  color: #6b7280;
+}
+
+#userList,
+#postsList,
+#usersAndPostsList {
+  max-height: 320px;
+  overflow-y: auto;
+  margin-top: 18px;
+  padding: 18px 22px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+#createPostForm {
+  display: grid;
+}
+
+#createdPost {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+#createdPost:empty {
+  display: none;
+}
+
+@media (min-width: 850px) {
+  .app {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  h1 {
+    grid-column: 1 / -1;
+  }
+  section {
+    margin-bottom: 0;
+  }
+}
