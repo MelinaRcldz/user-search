@@ -144,13 +144,15 @@ async function createPost(title, body) {
 
 // Function de filtro de usuarios
 function filterUsers(query, users) {
-    return users.filter((user) => user.name.includes(query));
+    const normalizedQuery = query.trim().toLowerCase();
+    
+    return users.filter((user) => 
+        user.name.toLowerCase().includes(normalizedQuery));
 }
 
 // Renderiza todos los usuarios
 async function renderUsers(event) {
     $status.innerText = "Buscando usuarios...";
-    $userList.replaceChildren();
 
     await wait(500);
 
@@ -158,6 +160,8 @@ async function renderUsers(event) {
     const query = event.target.value;
 
     const filteredUsers = filterUsers(query, users);
+
+    $userList.replaceChildren();
 
     if (filteredUsers.length === 0) {
         $status.innerText = "No se encontraron usuarios";
